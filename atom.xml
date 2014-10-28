@@ -1,16 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[My Octopress Blog]]></title>
-  <link href="http://tyler-ball.github.io/atom.xml" rel="self"/>
-  <link href="http://tyler-ball.github.io/"/>
-  <updated>2014-10-28T11:28:42-07:00</updated>
-  <id>http://tyler-ball.github.io/</id>
+  <title><![CDATA[How to Tell Scary Stories in the Dark]]></title>
+  <link href="https://tyler-ball.github.io/atom.xml" rel="self"/>
+  <link href="https://tyler-ball.github.io/"/>
+  <updated>2014-10-28T11:40:09-07:00</updated>
+  <id>https://tyler-ball.github.io/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[Tyler Ball]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Reloading Gem Sources in Chef]]></title>
+    <link href="https://tyler-ball.github.io/blog/2014/10/28/reloading-gem-sources-in-chef/"/>
+    <updated>2014-10-28T11:39:11-07:00</updated>
+    <id>https://tyler-ball.github.io/blog/2014/10/28/reloading-gem-sources-in-chef</id>
+    <content type="html"><![CDATA[<p>I had a situation where we had private gems hosted on an internal repo that needed to be installed on our servers.  To solve this I decided to write a <a href="http://guides.rubygems.org/command-reference/#gem-environment">gemrc</a> configuration file.  This file and its contents seem to always be in flux, depending on the version of Rubygems that is installed.</p>
+
+<p>To solve this problem I wrote the following cookbook (only relevant snippets shown):</p>
+
+<p>In <code>recipes/default.rb</code>:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">gem_sources</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;http://rubygems.org/&quot;</span><span class="p">,</span> <span class="s2">&quot;http://custom_server:12345/&quot;</span><span class="o">]</span>
+
+<span class="n">template</span> <span class="s1">&#39;/etc/gemrc&#39;</span> <span class="k">do</span>
+  <span class="n">source</span> <span class="s1">&#39;gemrc.erb&#39;</span>
+  <span class="n">variables</span> <span class="p">{(</span>
+    <span class="ss">:gem_sources</span> <span class="o">=&gt;</span> <span class="n">gem_sources</span>
+  <span class="p">)}</span>
+  <span class="n">notifies</span> <span class="ss">:create</span><span class="p">,</span> <span class="s2">&quot;ruby_block[refresh_gemrc]&quot;</span><span class="p">,</span> <span class="ss">:immediately</span>
+<span class="k">end</span>
+
+<span class="c1"># Some tools don&#39;t read /etc/gemrc and only look at the user one</span>
+<span class="n">home_dir</span> <span class="o">=</span> <span class="sb">`echo ~`</span><span class="o">.</span><span class="n">strip</span>
+<span class="n">template</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">home_dir</span><span class="si">}</span><span class="s2">/.gemrc&quot;</span> <span class="k">do</span>
+  <span class="n">source</span> <span class="s2">&quot;gemrc.erb&quot;</span>
+  <span class="n">variables</span> <span class="p">{(</span>
+    <span class="ss">:gem_sources</span> <span class="o">=&gt;</span> <span class="n">gem_sources</span>
+  <span class="p">)}</span>
+  <span class="n">owner</span> <span class="no">File</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="n">home_dir</span><span class="p">)</span><span class="o">.</span><span class="n">uid</span>
+  <span class="n">group</span> <span class="no">File</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="n">home_dir</span><span class="p">)</span><span class="o">.</span><span class="n">god</span>
+  <span class="n">notifies</span> <span class="ss">:create</span><span class="p">,</span> <span class="s2">&quot;ruby_block[refresh_gemrc]&quot;</span><span class="p">,</span> <span class="ss">:immediately</span>
+<span class="k">end</span>
+
+<span class="c1"># This updates the current ruby context.  It is not ideal because</span>
+<span class="c1"># it uses internal APIs that are not guaranteed</span>
+<span class="n">ruby_block</span> <span class="s2">&quot;refresh_gemrc&quot;</span> <span class="k">do</span>
+  <span class="n">action</span> <span class="ss">:nothing</span>
+  <span class="n">block</span> <span class="k">do</span>
+    <span class="no">Gem</span><span class="o">.</span><span class="n">configuration</span> <span class="o">=</span> <span class="no">Gem</span><span class="o">::</span><span class="no">ConfigFile</span><span class="o">.</span><span class="n">new</span> <span class="o">[]</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
+
+
+<p>In <code>templates/default/gemrc.erb</code>:</p>
+
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="nn">---</span>
+<span class="l-Scalar-Plain">:sources</span><span class="p-Indicator">:</span>
+<span class="l-Scalar-Plain">&lt;% @gem_sources.each do |source| %&gt;</span>
+<span class="p-Indicator">-</span> <span class="l-Scalar-Plain">&lt;%= source %&gt;</span>
+<span class="l-Scalar-Plain">&lt;% end %&gt;</span>
+<span class="l-Scalar-Plain">:verbose</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true</span>
+<span class="l-Scalar-Plain">gem</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">--no-doc</span></code></pre></div>
+
+
+<p>By specifying the <code>/etc/gemrc</code> file manually (and then reloading it on the same chef-run) I was able to install gems from our custom gem server on bootstraping a node.  Gem installs also went MUCH faster since I added the <code>--no-doc</code> argument which prevented download RI and RDoc for each gem.</p>
+]]></content>
+  </entry>
   
 </feed>
