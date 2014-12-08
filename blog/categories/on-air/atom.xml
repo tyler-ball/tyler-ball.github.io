@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: On-air | How to Tell Scary Stories in the Dark]]></title>
+  <link href="https://tyler-ball.github.io/blog/categories/on-air/atom.xml" rel="self"/>
+  <link href="https://tyler-ball.github.io/"/>
+  <updated>2014-12-08T09:25:29-08:00</updated>
+  <id>https://tyler-ball.github.io/</id>
+  <author>
+    <name><![CDATA[Tyler Ball]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Creating a Google Hangout on Air]]></title>
+    <link href="https://tyler-ball.github.io/blog/2014/12/04/creating-a-google-hangout-on-air/"/>
+    <updated>2014-12-04T10:01:29-08:00</updated>
+    <id>https://tyler-ball.github.io/blog/2014/12/04/creating-a-google-hangout-on-air</id>
+    <content type="html"><![CDATA[<p>I seem to have the magic sauce for creating a Hangout on air, so I wanted to share how I did it.</p>
+
+<h2>1. Log into the account you want to use for creating the Hangout</h2>
+
+<p>For this example I am using my corporate account to create the Hangout.  Open up any Google app (Gmail, Drive, etc.) and select the account switcher in the upper right:</p>
+
+<p><img src="/assets/hangout_images/1_account_selection.png" alt="Account Switch" />
+<em>Select the account you want to use for creating the Hangout.</em></p>
+
+<h2>2. Navigate to the Google+ page for your selected account</h2>
+
+<p><img src="/assets/hangout_images/2_view_profile.png" alt="Google Plus" />
+<em>Select the </em>View Profile<em> button to be taken to the Google+ page</em></p>
+
+<h2>3. Open the Hangouts page in Google+</h2>
+
+<p><img src="/assets/hangout_images/3_open_hangouts.gif" alt="Open Hangouts Page" />
+<em>This menu is in the upper left corner of the page</em></p>
+
+<h2>4. Click the <em>Start a Hangout On Air</em> button</h2>
+
+<p><img src="/assets/hangout_images/4_start_hangout.png" alt="Start Hangout" />
+<em>This button is located about halfway down the Hangouts page</em></p>
+
+<h2>5. Enter your Hangout details</h2>
+
+<p>This is where you set the name and optionally the description.  Make sure <em>Opscode, Inc.</em> and <em>Public</em> are in the Audience list at the bottom.  Mine defaults to having them.  You can always invite more audience members later.</p>
+
+<p>If the hangout isn&rsquo;t supposed to start until later (Eg, for a post mortem) you can specify a different date by clicking the <em>Later</em> button.</p>
+
+<p><img src="/assets/hangout_images/5_hangout_details.png" alt="Hangout Details" /></p>
+
+<p>Click the <em>Share</em> button when ready to create the hangout.  This will take you to the Hangout event page where you can manage it.</p>
+
+<p>Click on the <img src="/assets/hangout_images/5_links.png" alt="Links" /> button to see the Youtube link for viewers.</p>
+
+<h2>6.  Start Your Hangout</h2>
+
+<p>When ready click the blue <code>Start</code> button to start the hangout.</p>
+
+<p><img src="/assets/hangout_images/6_start_hangout.png" alt="Start Hangout" /></p>
+
+<p>You can invite people via the popup, but since the Hangout is public it should not be necessary.  Instead, I just copy and paste the hangout URL.  It should look like <code>https://plus.google.com/hangouts/_/hoaevent/AP36tYdnIM762XpHN0-hKUK-5CPW2tjucEk3eLZylFkKqCN864FvRA</code>.</p>
+
+<p>Don&rsquo;t forget to click the <img src="/assets/hangout_images/6_start_broadcast.png" alt="Start Hangout" /> button when you are ready to start recording.  The recording is automatically uploaded to Youtube once it is finished.  Users can view the event live using the Youtube link.</p>
+]]></content>
+  </entry>
+  
+</feed>
